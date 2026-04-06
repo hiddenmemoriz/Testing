@@ -11,8 +11,8 @@ QUOTES_FILE = Path("quotes.txt")
 INPUT_VIDEO = Path("input/reel.mp4")
 OUTPUT_VIDEO = Path("output/reel_with_text.mp4")
 
-OUTPUT_FOLDER_ID = "1EVIHk24_3C7DsCLcYoQOdrM_T11UrkWH"
 SCOPES = ["https://www.googleapis.com/auth/drive"]
+YOUR_EMAIL = "r97group@gmail.com"
 
 # Read quotes and pick a random one
 lines = [l.strip() for l in QUOTES_FILE.read_text().splitlines() if l.strip()]
@@ -58,10 +58,14 @@ creds = service_account.Credentials.from_service_account_file(tmp_path, scopes=S
 os.unlink(tmp_path)
 service = build("drive", "v3", credentials=creds)
 
-file_metadata = {
-    "name": OUTPUT_VIDEO.name,
-    "parents": [OUTPUT_FOLDER_ID]
-}
+file_metadata = {"name": OUTPUT_VIDEO.name}
 media = MediaFileUpload(str(OUTPUT_VIDEO), mimetype="video/mp4", resumable=True)
 uploaded = service.files().create(body=file_metadata, media_body=media, fields="id,name").execute()
-print(f"Uploaded: {uploaded['name']} (id: {uploaded['id']})")
+print(f"Uploaded: {uploaded['name']}")
+
+# Share with your Google account
+service.permissions().create(
+    fileId=uploaded["id"],
+    body={"type": "user", "role": "writer", "emailAddress": YOUR_EMAIL}
+).execute()
+print(f"Shared to {YOUR_EMAIL} — check 'Shared with me' in Google Drive!")
