@@ -11,7 +11,7 @@ QUOTES_FILE = Path("quotes.txt")
 INPUT_VIDEO = Path("input/reel.mp4")
 OUTPUT_VIDEO = Path("output/reel_with_text.mp4")
 
-OUTPUT_FOLDER_ID = "1NdT3fVdpZXx3CAc4hFPi4EiyFGwaymCH"
+OUTPUT_FOLDER_ID = "1EVIHk24_3C7DsCLcYoQOdrM_T11UrkWH"
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 
 # Read quotes and pick a random one
